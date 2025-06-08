@@ -26,7 +26,6 @@ export function Earth() {
           Math.min(maxDelta, dy * sensitivity)
         );
 
-        // Naturalny ruch: palcem w prawo → Ziemia w lewo
         rotationY.current += deltaX;
         rotationX.current += deltaY;
 
@@ -56,21 +55,23 @@ export function Earth() {
 
           const renderer = new Renderer({ gl });
           renderer.setSize(width, height);
-        //   renderer.setClearColor(0x000000);
 
           const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+
           scene.add(ambientLight);
 
           const texture = await loadTextureAsync({
             asset: require("../assets/models/earth/textures/earth_baseColor.png"),
           });
 
-          // Lustrzane odbicie NAPRAWIONE: tylko flipY=false, bez odbijania wrapS
           texture.flipY = true;
 
           const geometry = new THREE.SphereGeometry(5, 64, 64);
           const material = new THREE.MeshStandardMaterial({ map: texture });
           const earthMesh = new THREE.Mesh(geometry, material);
+
+          earthMesh.position.y = 2;
+
           scene.add(earthMesh);
           earthRef.current = earthMesh;
 
