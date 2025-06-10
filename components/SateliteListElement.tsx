@@ -1,30 +1,37 @@
 //tu bedzie pojedynczy element listy satelitów
 
-import useSateliteData from "@/hooks/useSateliteData";
-import { Text, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import { Pressable, Text, View } from "react-native";
 
-function SateliteListElement() {
-  const { data, error, isLoading } = useSateliteData();
+export interface SateliteData {
+  info: {
+    satid: number;
+    satname: string;
+  };
+  tle: string;
+}
 
-  if (isLoading) {
-    return (
-      <View className="bg-blue-500 mb-6">
-        <Text className="text-lg ">Ładowanie...</Text>
-      </View>
-    );
-  }
+interface SateliteListElementProps {
+  satelite: SateliteData;
+}
 
-  if (error) {
-    return (
-      <View className="bg-red-500 mb-6">
-        <Text className="text-lg ">Błąd ładowania danych</Text>
-      </View>
-    );
-  }
-
+function SateliteListElement({ satelite }: SateliteListElementProps) {
+  console.log("satelite data:", satelite);
   return (
-    <View className="bg-red-500 mb-6">
-      <Text className="text-lg ">{data.info.satname}</Text>
+    <View className=" flex flex-row items-center justify-between gap-x-5 w-full py-4 px-3 rounded-xl border border-greyColorSearchBar/40">
+      <Text className="text-lg text-white/90">{satelite.info.satname}</Text>
+      <Text className="text-lg text-white/90 ">{satelite.info.satid}</Text>
+      <Pressable className="overflow-hidden rounded-xl border border-lightPurpleColor">
+        <LinearGradient
+          colors={["#122D94", "#3048A2"]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+        >
+          <Text className="text-white/90 px-3 py-1.5 tracking-wide font-semibold">
+            Track it
+          </Text>
+        </LinearGradient>
+      </Pressable>
     </View>
   );
 }
