@@ -1,5 +1,4 @@
-import AllSateliteList from "@/components/AllSateliteList";
-import SateliteFilterBar from "@/components/SateliteFilterBar";
+import SateliteListWrapper from "@/components/SateliteListWrapper";
 import SearchBarSatelite from "@/components/SearchBarSatelite";
 
 import { LinearGradient } from "expo-linear-gradient";
@@ -13,8 +12,7 @@ function SateliteList() {
       style={{ flex: 1 }}
     >
       <SearchBarSatelite />
-      <SateliteFilterBar />
-      <AllSateliteList />
+      <SateliteListWrapper />
     </LinearGradient>
   );
 }

@@ -1,4 +1,4 @@
-import { getSatelitePosition } from "@/services/apiSatelites";
+import { getSateliteOrbit } from "@/services/apiSatelites";
 import { useQuery } from "@tanstack/react-query";
 
 export interface SatellitePosition {
@@ -13,12 +13,15 @@ export interface ConvertedPosition {
   z: number;
 }
 
-const EARTH_RADIUS = 5;       // promień Ziemi w Three.js (w jednostkach 3D)
-const EARTH_RADIUS_KM = 6371; // promień Ziemi w kilometrach
+const EARTH_RADIUS = 5; // promień Ziemi w jednostkach Three.js
+const EARTH_RADIUS_KM = 6371;
 const scale = EARTH_RADIUS / EARTH_RADIUS_KM;
 
-// Funkcja konwertująca współrzędne geograficzne na współrzędne 3D z uwzględnieniem skali
-const convertTo3D = ({ satlatitude, satlongitude, sataltitude }: SatellitePosition): ConvertedPosition => {
+const convertTo3D = ({
+  satlatitude,
+  satlongitude,
+  sataltitude,
+}: SatellitePosition): ConvertedPosition => {
   const radiusKm = EARTH_RADIUS_KM + sataltitude;
   const radius = radiusKm * scale;
 
@@ -32,14 +35,16 @@ const convertTo3D = ({ satlatitude, satlongitude, sataltitude }: SatellitePositi
   };
 };
 
-// Hook do pobierania i konwersji pozycji satelity
-export const useOrbit = (noradId: number = 25544) => {
+// ← dodaj parametr `seconds` z wartością domyślną
+export const useOrbit = (noradId: number, seconds: number = 300) => {
   return useQuery<ConvertedPosition[]>({
-    queryKey: ["satelite-orbit", noradId],
+    queryKey: ["satelite-orbit", noradId, seconds],
     queryFn: async () => {
-      const data = await getSatelitePosition(noradId);
-      return data.map(convertTo3D); // data to tablica pozycji, mapujemy na 3D
+      const orbitData = await getSateliteOrbit(noradId, 50, 19, 0, seconds);
+      console.log("Fetched orbitData from API:", orbitData); // <--- tu
+      return orbitData.map(convertTo3D);
     },
-    staleTime: 10000, // Odświeżanie co 10 sekund
+    staleTime: 10000,
+    enabled: !!noradId,
   });
 };

@@ -3,25 +3,26 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Pressable, Text, View } from "react-native";
 
-export interface SateliteData {
-  info: {
-    satid: number;
-    satname: string;
-  };
-  tle: string;
+export interface SateliteListItem {
+  OBJECT_NAME: string;
+  NORAD_CAT_ID: number;
 }
 
 interface SateliteListElementProps {
-  satelite: SateliteData;
+  satelite: SateliteListItem;
+  onTrack: () => void;
 }
 
-function SateliteListElement({ satelite }: SateliteListElementProps) {
+function SateliteListElement({ satelite, onTrack }: SateliteListElementProps) {
   console.log("satelite data:", satelite);
   return (
     <View className=" flex flex-row items-center justify-between gap-x-5 w-full py-4 px-3 rounded-xl border border-greyColorSearchBar/40">
-      <Text className="text-lg text-white/90">{satelite.info.satname}</Text>
-      <Text className="text-lg text-white/90 ">{satelite.info.satid}</Text>
-      <Pressable className="overflow-hidden rounded-xl border border-lightPurpleColor">
+      <Text className="text-lg text-white/90">{satelite.OBJECT_NAME}</Text>
+      <Text className="text-lg text-white/90 ">{satelite.NORAD_CAT_ID}</Text>
+      <Pressable
+        className="overflow-hidden rounded-xl border border-lightPurpleColor"
+        onPress={()=>onTrack()}
+      >
         <LinearGradient
           colors={["#122D94", "#3048A2"]}
           start={{ x: 0, y: 0 }}

@@ -1,9 +1,18 @@
+import { categories } from "@/costants/catgory";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { LinearGradient } from "expo-linear-gradient";
 import { ScrollView, StyleSheet, View } from "react-native";
 import SateliteFilterBarButton from "./SateliteFilterBarButton";
 
-function SateliteFilterBar() {
+type SateliteFilterBarProps = {
+  selectedCategory: string | null;
+  onSelectCategory: (name: string) => void;
+};
+
+function SateliteFilterBar({
+  selectedCategory,
+  onSelectCategory,
+}: SateliteFilterBarProps) {
   return (
     <View style={styles.containerFilterBar}>
       <View style={styles.iconWrapper}>
@@ -22,12 +31,14 @@ function SateliteFilterBar() {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.scrollViewContent}
       >
-        <SateliteFilterBarButton />
-        <SateliteFilterBarButton />
-        <SateliteFilterBarButton />
-        <SateliteFilterBarButton />
-        <SateliteFilterBarButton />
-        <SateliteFilterBarButton />
+        {categories.map((category) => (
+          <SateliteFilterBarButton
+            key={category.name}
+            label={category.name}
+            onPress={() => onSelectCategory(category.name)}
+            isActive={selectedCategory === category.name}
+          />
+        ))}
       </ScrollView>
     </View>
   );

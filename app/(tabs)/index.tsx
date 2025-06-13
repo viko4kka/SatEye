@@ -1,5 +1,6 @@
 import { Earth } from "@/components/Earth";
 import { LinearGradient } from "expo-linear-gradient";
+import { useLocalSearchParams } from "expo-router";
 import { Suspense, useState } from "react";
 import { Text, View } from "react-native";
 
@@ -14,6 +15,9 @@ function getCurrentDate() {
 }
 
 export default function GlobalViewScreen() {
+  const { satid } = useLocalSearchParams<{ satid?: string }>();
+  console.log(satid)
+
   const [currentDate, setCurrentDate] = useState(getCurrentDate());
 
   return (

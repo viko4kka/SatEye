@@ -1,4 +1,6 @@
+import { useSatellite } from "@/context/SateliteContext";
 import { useOrbit } from "@/hooks/useOrbit";
+import { useSatelitePosition } from "@/hooks/useSatelitePosition";
 import { GLView } from "expo-gl";
 import { Renderer, loadTextureAsync } from "expo-three";
 import { useRef } from "react";
@@ -8,11 +10,15 @@ import { Orbit } from "./Orbit";
 import { Satellite } from "./Satellite";
 
 export function Earth() {
+  const { noradId } = useSatellite();
+  console.log('tu jest noradId:', noradId);
+
   const earthGroup = useRef<THREE.Group | null>(null);
   const rotationX = useRef(0);
   const rotationY = useRef(0);
 
-  const { data: orbitPositions } = useOrbit(25544);
+  const { data: orbitPositions } = useOrbit(noradId ?? 0);
+  const { data: currentPosition } = useSatelitePosition(noradId ?? 0);
 
   const panResponder = useRef(
     PanResponder.create({
@@ -76,22 +82,31 @@ export function Earth() {
           const geometry = new THREE.SphereGeometry(5, 64, 64);
           const material = new THREE.MeshStandardMaterial({ map: texture });
           const earthMesh = new THREE.Mesh(geometry, material);
-          earthMesh.position.set(0, 0, 0); // ustawienie Ziemi w centrum
+          earthMesh.position.set(0, 0, 0);
 
           const group = new THREE.Group();
           group.add(earthMesh);
           earthGroup.current = group;
           scene.add(group);
 
-          // Dodaj orbitę i satelitę
+          // Dodanie orbity i pozycji satelity
           if (orbitPositions && orbitPositions.length > 0) {
-            const satPos = orbitPositions[orbitPositions.length - 1];
-
-            const orbit = Orbit(orbitPositions); // zmodyfikowane
-            const satellite = Satellite({ position: satPos }); // zmodyfikowane
-
+            console.log("Adding orbit to scene:", orbitPositions);
+            const orbit = Orbit(orbitPositions);
             group.add(orbit);
+          } else {
+            console.log("No orbit positions available");
+          }
+
+          if (currentPosition) {
+            console.log(
+              "Adding satellite to scene at position:",
+              currentPosition
+            );
+            const satellite = Satellite({ position: currentPosition });
             group.add(satellite);
+          } else {
+            console.log("No current satellite position available");
           }
 
           const animate = () => {

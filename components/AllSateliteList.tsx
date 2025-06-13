@@ -1,19 +1,52 @@
 //tu bedzie cala lista satelitów
 
-import useSateliteData from "@/hooks/useSateliteData";
-import { ScrollView, StyleSheet, Text } from "react-native";
-import SateliteListElement from "./SateliteListElement";
+import { useSateliteListByCategory } from "@/hooks/useSatelitesByCategory";
+import { useRouter } from "expo-router";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import SateliteListElement, { SateliteListItem } from "./SateliteListElement";
 
-function AllSateliteList() {
-  const { data, error, isLoading } = useSateliteData();
+interface AllSateliteListProps {
+  group: string;
+}
 
-  if (isLoading) return <Text>Ładowanie...</Text>;
-  if (error) return <Text>Błąd ładowania danych</Text>;
-  if (!data) return <Text>Brak danych satelity</Text>;
+function AllSateliteList({ group }: AllSateliteListProps) {
+  const router = useRouter();
+
+  const { data, isLoading, error } = useSateliteListByCategory(group);
+
+  const handleClick = (noradId: number) => {
+    router.push({
+      pathname: "/",
+      params: { satId: noradId.toString() },
+    });
+    console.log(noradId);
+  };
+
+  if (isLoading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <View>
+        <Text>Error</Text>
+      </View>
+    );
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.containerList}>
-      <SateliteListElement satelite={data} />
+      {data.map((satelite: SateliteListItem) => (
+        <SateliteListElement
+          key={satelite.NORAD_CAT_ID}
+          satelite={satelite}
+          onTrack={() => handleClick(satelite.NORAD_CAT_ID)}
+        />
+      ))}
     </ScrollView>
   );
 }

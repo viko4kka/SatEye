@@ -1,5 +1,6 @@
+import LocationUserDetails from "@/components/LocationUserDetails";
 import { LinearGradient } from "expo-linear-gradient";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 
 function Settings() {
   return (
@@ -9,8 +10,8 @@ function Settings() {
       end={{ x: 0.5, y: 1 }}
       style={{ flex: 1 }}
     >
-      <View>
-        <Text>Tu bedzie settings</Text>
+      <View className="flex-1">
+        <LocationUserDetails />
       </View>
     </LinearGradient>
   );
