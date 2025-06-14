@@ -2,7 +2,7 @@
 
 import { useSateliteListByCategory } from "@/hooks/useSatelitesByCategory";
 import { useRouter } from "expo-router";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import SateliteListElement, { SateliteListItem } from "./SateliteListElement";
 
 interface AllSateliteListProps {
@@ -39,15 +39,17 @@ function AllSateliteList({ group }: AllSateliteListProps) {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.containerList}>
-      {data.map((satelite: SateliteListItem) => (
+    <FlatList
+      data={data}
+      keyExtractor={(item: SateliteListItem) => item.NORAD_CAT_ID.toString()}
+      renderItem={({ item }: { item: SateliteListItem }) => (
         <SateliteListElement
-          key={satelite.NORAD_CAT_ID}
-          satelite={satelite}
-          onTrack={() => handleClick(satelite.NORAD_CAT_ID)}
+          satelite={item}
+          onTrack={() => handleClick(item.NORAD_CAT_ID)}
         />
-      ))}
-    </ScrollView>
+      )}
+      contentContainerStyle={styles.containerList}
+    />
   );
 }
 

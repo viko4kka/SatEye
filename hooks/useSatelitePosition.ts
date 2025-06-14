@@ -1,13 +1,29 @@
-import { getSateliteCurrentPosition } from "@/services/apiSatelites";
+import { getSatelitePosition } from "@/services/apiSatelites";
 import { useQuery } from "@tanstack/react-query";
 
-export const useSatelitePosition = (noradId: number) => {
+export const useSatelitePosition = (
+  noradId: number,
+  observerLat: number,
+  observerLng: number,
+  observerAlt: number,
+  seconds: number
+) => {
   return useQuery({
-    queryKey: ["satelite-position", noradId],
-    queryFn: () => getSateliteCurrentPosition(noradId),
-    staleTime: 5000,
-    enabled: !!noradId, // działa tylko gdy noradId istnieje
+    queryKey: [
+      "satelite-position",
+      noradId,
+      observerLat,
+      observerLng,
+      observerAlt,
+      seconds,
+    ],
+    queryFn: () =>
+      getSatelitePosition(
+        noradId,
+        observerLat,
+        observerLng,
+        observerAlt,
+        seconds
+      ),
   });
 };
-
-
