@@ -13,28 +13,52 @@ function SateliteDetails({ noradId }: SateliteDetailsProps) {
 
   if (isLoadingPosition || isLoadingTle) return <Text>Loading...</Text>;
 
-  const pos = positionData?.positions?.[0]; // pierwszy punkt pozycji
-  const tleLines = tleData?.tle?.split("\r\n"); // rozdziel TLE na 2 linie
+  const pos = positionData?.positions?.[0];
+  const tleLines = tleData?.tle?.split("\r\n");
 
   return (
-    <View className="bg-red-500 w-full h-full p-4 space-y-4">
-      <View className="bg-blue-500 w-full p-4 rounded-xl">
-        <Text className="text-white font-bold text-lg mb-2">
+    <View className=" w-full h-full p-4 pt-10 flex gap-y-6">
+      <View className="w-full bg-bgColorOfSateliteDetails rounded-xl p-6">
+        <Text className="text-lightPurpleColor font-bold text-lg mb-2 uppercase tracking-wider">
           Satellite Details:
         </Text>
-        <Text className="text-white">NORAD ID: {noradId}</Text>
-        <Text className="text-white">Timestamp (UTC): {pos?.timestamp}</Text>
-        <Text className="text-white">Latitude: {pos?.satlatitude}</Text>
-        <Text className="text-white">Longitude: {pos?.satlongitude}</Text>
-        <Text className="text-white">Altitude (km): {pos?.sataltitude}</Text>
-        <Text className="text-white">Azimuth: {pos?.azimuth}</Text>
-        <Text className="text-white">Elevation: {pos?.elevation}</Text>
+        <View className="flex gap-y-2">
+          <Text className="text-darkColorText tracking-wide font-medium ">
+            NORAD ID: {noradId}
+          </Text>
+          <Text className="text-darkColorText tracking-wide font-medium ">
+            Timestamp (UTC): {pos?.timestamp}
+          </Text>
+          <Text className="text-darkColorText tracking-wide font-medium ">
+            Latitude: {pos?.satlatitude}
+          </Text>
+          <Text className="text-darkColorText tracking-wide font-medium ">
+            Longitude: {pos?.satlongitude}
+          </Text>
+          <Text className="text-darkColorText tracking-wide font-medium ">
+            Altitude (km): {pos?.sataltitude}
+          </Text>
+          <Text className="text-darkColorText tracking-wide font-medium ">
+            Azimuth: {pos?.azimuth}
+          </Text>
+          <Text className="text-darkColorText tracking-wide font-medium ">
+            Elevation: {pos?.elevation}
+          </Text>
+        </View>
       </View>
 
-      <View className="bg-green-500 w-full p-4 rounded-xl">
-        <Text className="text-white font-bold text-lg mb-2">TLE:</Text>
-        <Text className="text-white">Line 1: {tleLines?.[0]}</Text>
-        <Text className="text-white">Line 2: {tleLines?.[1]}</Text>
+      <View className="w-full bg-bgColorOfSateliteDetails rounded-xl p-6">
+        <Text className="text-lightPurpleColor font-bold text-lg mb-2 uppercase tracking-wider">
+          TLE:
+        </Text>
+        <View className="flex gap-y-2">
+          <Text className="text-darkColorText tracking-wide font-medium ">
+            Line 1: {tleLines?.[0]}
+          </Text>
+          <Text className="text-darkColorText tracking-wide font-medium ">
+            Line 2: {tleLines?.[1]}
+          </Text>
+        </View>
       </View>
     </View>
   );

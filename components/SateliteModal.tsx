@@ -26,14 +26,20 @@ const SateliteModal = ({
         className="flex-1 bg-black/50"
         onPress={() => setIsModalVisible(false)}
       />
-      <View className="absolute bottom-0 w-full bg-white p-5 rounded-t-2xl shadow-xl h-3/4">
-        <View className="flex-row justify-between items-center mb-4">
-          <Text className="text-xl font-semibold">{sateliteName}</Text>
+      <View className="absolute bottom-0 w-full bg-modalBgColor pt-6 p-5 rounded-t-2xl shadow-xl h-3/4">
+        <View className="relative items-center mb-4">
+          <Text className="text-darkColorText text-3xl font-semibold text-center">
+            {sateliteName}
+          </Text>
 
-          <Pressable onPress={() => setIsModalVisible(false)}>
-            <Feather name="x" size={24} color="#3048A2" />
+          <Pressable
+            onPress={() => setIsModalVisible(false)}
+            className="absolute right-0"
+          >
+            <Feather name="x" size={28} color="#070C08" />
           </Pressable>
         </View>
+
         <SateliteDetails noradId={noradId} />
       </View>
     </Modal>

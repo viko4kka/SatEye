@@ -7,7 +7,7 @@ function SateliteDetailsScreen() {
   const noradId = Number(id);
 
   if (!noradId) {
-    return null; // or handle the error appropriately
+    return null; 
   }
 
   return <SateliteDetails noradId={noradId} />;
