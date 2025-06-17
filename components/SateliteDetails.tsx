@@ -1,6 +1,6 @@
 import { useSatelitePosition } from "@/hooks/useSatelitePosition";
 import { useSateliteTle } from "@/hooks/useSateliteTle";
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 
 interface SateliteDetailsProps {
   noradId: number;
@@ -11,7 +11,12 @@ function SateliteDetails({ noradId }: SateliteDetailsProps) {
     useSatelitePosition(noradId, 50, 19, 0, 60); // lat, lon, alt, seconds
   const { data: tleData, isLoading: isLoadingTle } = useSateliteTle(noradId);
 
-  if (isLoadingPosition || isLoadingTle) return <Text>Loading...</Text>;
+  if (isLoadingPosition || isLoadingTle)
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" color="#3048A2" />
+      </View>
+    );
 
   const pos = positionData?.positions?.[0];
   const tleLines = tleData?.tle?.split("\r\n");

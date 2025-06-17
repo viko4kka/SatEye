@@ -11,7 +11,6 @@ function SateliteList() {
       end={{ x: 0.5, y: 1 }}
       style={{ flex: 1 }}
     >
-      <SearchBarSatelite />
       <SateliteListWrapper />
     </LinearGradient>
   );

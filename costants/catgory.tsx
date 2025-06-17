@@ -1,6 +1,4 @@
 export const categories = [
-
-
   // Weather & Earth Resources
   { name: "Weather", group: "weather" },
   { name: "NOAA", group: "noaa" },
@@ -15,7 +13,7 @@ export const categories = [
 
   // Communications Satellites
   { name: "Active Geosynchronous", group: "geo" },
-  { name: "Movers", group: "movers" },
+  // { name: "Movers", group: "movers" },
   { name: "GEO Protected Zone", group: "gpz" },
   { name: "GEO Protected Zone Plus", group: "gpz-plus" },
   { name: "Intelsat", group: "intelsat" },

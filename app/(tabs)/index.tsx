@@ -16,7 +16,7 @@ function getCurrentDate() {
 
 export default function GlobalViewScreen() {
   const { satid } = useLocalSearchParams<{ satid?: string }>();
-  console.log(satid)
+  console.log(satid);
 
   const [currentDate, setCurrentDate] = useState(getCurrentDate());
 
@@ -28,7 +28,7 @@ export default function GlobalViewScreen() {
       style={{ flex: 1 }}
     >
       <View className="flex-1">
-        <View className="items-start justify-center px-6 pt-28 ">
+        <View className=" items-start justify-center px-6 pt-28 ">
           <Text className="text-whiteTextColor/90 text-5xl font-bold tracking-wide">
             Earth
           </Text>

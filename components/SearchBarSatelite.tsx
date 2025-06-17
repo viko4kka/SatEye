@@ -1,48 +1,60 @@
 import Feather from "@expo/vector-icons/Feather";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Pressable, Text, TextInput, View } from "react-native";
 
-function SearchBarSatelite() {
-  const [searchBarText, setSearchBarText] = useState("");
+interface SearchBarProps {
+  searchBarText: string;
+  setSearchBarText: (text: string) => void;
+  onSearch: () => void;
+}
+
+function SearchBarSatelite({
+  searchBarText,
+  setSearchBarText,
+  onSearch,
+}: SearchBarProps) {
   const [isFocus, setIsFocus] = useState(false);
+  const [isSearching, setIsSearching] = useState(false); // stan po kliknięciu lupki
 
-  function handleSearchBarTextChange(enternedText: string) {
-    setSearchBarText(enternedText);
-  }
+  const handleSearchPress = () => {
+    setIsSearching(true); // ustawiamy flagę
+    onSearch();
+  };
 
-  function handleClickSearchButton() {
-    setSearchBarText("");
-  }
+  const handleBlur = () => {
+    setIsFocus(false);
+    setIsSearching(false); // resetujemy po wyjściu z inputa
+  };
 
   return (
-    <View className=" items-center justify-start px-10 pt-12 ">
-      <Text className="text-white/70 text-3xl font-light tracking-wider mb-4 flex flex-col items-center justify-center text-center  px-10 py-8 ">
+    <View className="items-center justify-start px-10 pt-12">
+      <Text className="text-white/70 text-3xl font-light tracking-wider mb-4 flex flex-col items-center justify-center text-center px-10 py-8">
         What are you looking for in space today?
       </Text>
-      <View className=" flex flex-row items-center justify-between px-10 gap-x-4 ">
-        <View className=" w-full">
+      <View className="flex flex-row items-center justify-between px-10 gap-x-4">
+        <View className="w-full">
           <TextInput
-            className="px-6 py-4 rounded-xl w-full  bg-transparent text-whiteTextColor border border-greyColorSearchBar"
+            className="px-6 py-4 rounded-xl w-full bg-transparent text-whiteTextColor border"
             placeholder="Search"
             placeholderTextColor="#76808D"
             value={searchBarText}
-            onChangeText={handleSearchBarTextChange}
+            onChangeText={setSearchBarText}
             onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
+            onBlur={handleBlur}
             style={[
               {
-                borderColor: isFocus ? "#FF4D4D" : "#76808D",
-              
+                borderColor: isSearching
+                  ? "#76808D" // spokojny kolor po kliknięciu lupki
+                  : isFocus
+                  ? "#3048A2" // czerwony podczas focus
+                  : "#76808D", // default
               },
             ]}
           />
         </View>
         <Pressable
-          onPress={() => {
-            console.log(searchBarText);
-            handleClickSearchButton();
-          }}
+          onPress={handleSearchPress}
           className="overflow-hidden rounded-xl border border-lightPurpleColor"
         >
           <LinearGradient
@@ -64,12 +76,3 @@ function SearchBarSatelite() {
 }
 
 export default SearchBarSatelite;
-
-const styles = StyleSheet.create({
-  textColoronFocus: {
-    color: "#3048A2",
-  },
-  notActiveBorderColor: {
-    color: "#76808D",
-  },
-});

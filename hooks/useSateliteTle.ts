@@ -1,9 +1,10 @@
 import { getSateliteTle } from "@/services/apiSatelites";
 import { useQuery } from "@tanstack/react-query";
 
-export const useSateliteTle = (noradId: number) => {
+export const useSateliteTle = (noradId?: number) => {
   return useQuery({
     queryKey: ["satelite-tle", noradId],
-    queryFn: () => getSateliteTle(noradId),
+    queryFn: () => getSateliteTle(noradId!),
+     enabled: !!noradId,
   });
 };

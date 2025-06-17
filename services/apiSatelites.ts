@@ -35,10 +35,11 @@ export const getSatelitePosition = async (
 
 export const getSateliteTle = async (noradId: number) => {
   const response = await fetch(
-    `https://api.n2yo.com/rest/v1/satellite/tle/${noradId}&apiKey=${API_KEY}`
+    `https://api.n2yo.com/rest/v1/satellite/tle/${noradId}?apiKey=${API_KEY}`
   );
   if (!response.ok) throw new Error("Error fetching satellite TLE");
   const data = await response.json();
 
-  return data;
+  if (!data.tle) throw new Error("No TLE data found");
+  return data.tle; // zwracamy tylko dwuliniowy string TLE
 };
